@@ -3,6 +3,8 @@ import telebot
 from telebot import types
 import logging
 from config import TOKEN
+from spy import log
+import datetime
 
 
 API_TOKEN = TOKEN
@@ -47,6 +49,10 @@ def digitgames(message):
 def welcome(message):
     n_bot = get_data_storage(message.chat.id)
     if message.text == "n" and n_bot['game_state'] == False:
+        if n_bot == 'user': res = 'выиграл'
+        else: res = 'проиграл'
+        today = datetime.datetime.today()
+        log(message.chat.first_name, n_bot['bot_name'], today.strftime("%d/%m/%Y %H.%M:%S"),res)
         bot.send_message(message.chat.id, 'Спасибо за игру! До встречи!')
         return
     if n_bot['user_name'] == None:
